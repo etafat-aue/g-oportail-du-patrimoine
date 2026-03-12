@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Géoportail du Patrimoine - Agence Urbaine d'El Jadida Sidi Bennour</title>
+    <style>
+        /* BASE & SMOOTH SCROLL */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* HEADER FIXE */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 10px 50px;
+            background: rgb(255, 255, 255);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: flex-start; /* Aligné à gauche */
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-bottom: 3px solid #2c3e50;
+            gap: 20px; /* Espace entre logo et titre */
+        }
+
+        .logo-container img { height: 65px; width: auto; }
+
+        .portal-title h1 {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Couleur bleue pour les mots spécifiques */
+        .highlight-blue {
+            color: #944816;
+            font-weight: bold;
+        }
+
+        /* SECTION HERO (ACCUEIL VISUEL) */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+                        url('https://sig.etafat.ma/data_3d/eljadida_html/background_geoportal/background4.png') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .glass-card {
+            width: 480px;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            text-align: center;
+            text-decoration: none;
+            transition: 0.4s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: #00d4ff;
+        }
+
+        .card-title {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .btn-visualiser {
+            background: #00d4ff;
+            color: #fff;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: inline-block;
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-visualiser:hover {
+            background: #00b8e6;
+            transform: scale(1.05);
+        }
+
+        /* SECTION OBJECTIFS */
+        .section-objectifs {
+            padding: 100px 10% 60px;
+            background: #fff;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .text-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .text-content h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #00d4ff;
+            margin-top: 10px;
+        }
+
+        .text-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+            color: #546e7a;
+            font-size: 1.05rem;
+        }
+
+        /* CARTE VECTORIELLE NETTE (Simulation) */
+        .vector-map-box {
+            background: #eef2f3;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 120px;
+        }
+
+        .vector-map-box img {
+            width: 100%;
+            border-radius: 10px;
+            filter: contrast(1.1);
+        }
+
+        .highlight-box {
+            background: #f1f8ff;
+            padding: 20px;
+            border-left: 4px solid #00d4ff;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* FOOTER STYLE */
+        .main-footer {
+            background-color: #2c3e50; /* Même bleu foncé que votre bordure de header */
+            color: #ffffff;
+            padding: 40px 10% 20px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-column h3 {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-transform: none; /* Retrait des majuscules */
+            font-weight: bold;    /* Maintien du gras */
+        }
+
+        .footer-column p {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #ecf0f1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            color: #bdc3c7;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        /* Style spécifique pour la section immersive */
+        /* Style harmonisé pour la section immersive */
+        #plateforme-immersive h2 {
+            text-transform: none;
+            font-weight: bold;
+        }
+
+        #plateforme-immersive h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #00d4ff;
+            margin-top: 10px;
+        }
+
+        #plateforme-immersive .text-content p {
+            color: #546e7a; /* Même couleur que la section objectif */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://sig.etafat.ma/data_3d/eljadida_html/background_geoportal/aue.jpg" alt="Logo AU El Jadida">
+        </div>
+        <div class="portal-title">
+            <h1>Géoportail du Patrimoine architectural urbanistique et paysager de Doukkala</h1>
+            <p style="text-align:left; font-size: 0.8rem; color: #7f8c8d;">
+                <span class="highlight-blue">Innovation</span> & <span class="highlight-blue">Conservation Digitale</span>
+            </p>
+        </div>
+    </header>
+
+    <section class="hero">
+        <a href="https://sig.etafat.ma/aws/app/4021f963-a235-11f0-8b19-8bbed03cc3ff/index.html?dummy=1773316682886" class="glass-card">
+            <span style="color: rgba(255,255,255,0.6); font-size: 0.8rem; display:block; margin-bottom:15px;">Édition 2026</span>
+            <h2 class="card-title">Visualisation Virtuelle du Patrimoine</h2>
+            <div class="btn-visualiser">Immersion au Cœur d’un Héritage d’Exception</div>
+        </a>
+        
+        <a href="#objectifs" style="position:absolute; bottom:30px; color:#fff; text-decoration:none; font-size:2rem; animation: bounce 2s infinite;">↓</a>
+    </section>
+
+    <section id="objectifs" class="section-objectifs">
+        <div class="content-grid">
+            <div class="text-content">
+                <h2>L'Objectif de notre Géoportail</h2>
+                <p>
+                    La valorisation du patrimoine architectural, urbanistique et paysager représente aujourd’hui un enjeu majeur dans le développement durable et l’attractivité des territoires. 
+                    Dans ce cadre, la région de <strong>Doukkala</strong>, riche d’un héritage culturel et historique unique, se distingue par une diversité exceptionnelle.
+                </p>
+                
+                <p>
+                    Consciente de cette importance, l’<strong>Agence Urbaine d’El Jadida Sidi Bennour</strong> a lancé une initiative novatrice : 
+                    « Visualisation virtuelle du patrimoine de Doukkala ». Ce projet exploite les technologies numériques les plus avancées pour rendre ce legs accessible à tous.
+                </p>
+
+                <div class="highlight-box">
+                    "Une réponse innovante aux défis de conservation, renforçant la visibilité de Doukkala sur la scène internationale."
+                </div>
+
+                <p style="margin-top:20px;">
+                    Située au cœur de l'axe Casablanca-Settat, avec son ouverture sur l'Atlantique, la région bénéficie d'une position stratégique privilégiée, conférant un fort potentiel touristique et culturel.
+                </p>
+            </div>
+
+            <div class="vector-map-box">
+                <p style="font-weight:bold; margin-bottom:15px; color:#2c3e50;">Analyse Spatiale de la Région</p>
+                <img src="https://sig.etafat.ma/data_3d/eljadida_html/background_geoportal/background4.png" alt="Carte de Doukkala">
+                <p style="font-size:0.8rem; color:#7f8c8d; margin-top:10px;">Interface de cartographie thématique et interactive.</p>
+            </div>
+        </div>
+    </section>
+    <section id="plateforme-immersive" class="section-objectifs">
+        <div class="content-grid">
+            <div class="text-content">
+                <h2>Une plateforme immersive de valorisation du patrimoine</h2>
+                <p>
+                    Le Géoportail ne se limite pas à une simple cartographie du patrimoine. Il constitue une plateforme numérique immersive permettant d’explorer chaque site patrimonial à travers une variété de contenus interactifs et multimédias.
+                </p>
+                <p>
+                    Pour chaque élément du patrimoine recensé, l’utilisateur peut accéder à un ensemble de ressources permettant une compréhension approfondie du site, de son architecture et de son contexte territorial.
+                </p>
+                <p>
+                    Grâce à l’intégration de technologies avancées de visualisation, le géoportail offre une expérience de découverte riche et interactive, combinant représentation spatiale, documentation visuelle et immersion virtuelle.
+                </p>
+            </div>
+
+            <div class="vector-map-box">
+                <p style="font-weight:bold; margin-bottom:15px; color:#2c3e50;">Structure des ressources</p>
+                <img src="https://sig.etafat.ma/data_3d/eljadida_html/background_geoportal/fonctionnalites3.png" alt="Schéma de la structure immersive">
+                <p style="font-size:0.8rem; color:#7f8c8d; margin-top:10px;">Interface combinant Vidéos, Photos aériennes, Maquettes 3D et Visites virtuelles.</p>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Contactez-nous</h3>
+                <p>Agence Urbaine d'El Jadida Sidi Bennour</p>
+                <p>Email: contact@auejsb.ma</p>
+                <p>Tél: 05-23-37-00-61 / 34-06-28</p>
+            </div>
+            <div class="footer-column">
+                <h3>Adresse</h3>
+                <p>Résidence, Av. Bir Anzarane, El Jadida</p>
+                <p>El Jadida, Maroc</p>
+            </div>
+            <div class="footer-column">
+                <h3>Site Web</h3>
+                <div class="social-links">
+                    <a href="https://www.auejsb.ma" target="_blank" style="color: #00d4ff; text-decoration: none; transition: 0.3s;">
+                        www.auejsb.ma
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Géoportail du Patrimoine - Tous droits réservés.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
